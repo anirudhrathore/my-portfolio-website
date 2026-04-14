@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anirudh Rathore — QA Automation Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF5C00;
+    --orange-dim: #ff5c0022;
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --border: #2a2a2a;
+    --white: #f5f0eb;
+    --muted: #888;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--orange);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--orange);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s ease, width 0.2s, height 0.2s;
+    opacity: 0.5;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(255,92,0,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--orange);
+  }
+  h1.hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 13vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  h1.hero-name .accent { color: var(--orange); }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    letter-spacing: 4px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+  .hero-bio {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #aaa;
+    max-width: 580px;
+    margin-bottom: 3rem;
+  }
+  .hero-ctas { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: var(--black);
+    font-weight: 700;
+    border: 2px solid var(--orange);
+  }
+  .btn-primary:hover { background: transparent; color: var(--orange); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+  .hero-photo-area {
+    position: absolute; right: 4rem; top: 50%;
+    transform: translateY(-50%);
+    width: 340px; height: 420px;
+    z-index: 1;
+  }
+  .photo-frame {
+    width: 100%; height: 100%;
+    border: 2px solid var(--orange);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .photo-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%) contrast(1.1);
+  }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    background: var(--card);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem;
+    color: var(--muted);
+  }
+  .photo-placeholder .icon { font-size: 4rem; opacity: 0.3; }
+  .photo-placeholder p {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-align: center;
+    opacity: 0.5;
+  }
+  .photo-corner {
+    position: absolute;
+    width: 24px; height: 24px;
+    border-color: var(--orange);
+    border-style: solid;
+  }
+  .photo-corner.tl { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+  .photo-corner.br { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; }
+  .hero-stats {
+    position: absolute; bottom: 3rem; left: 4rem;
+    display: flex; gap: 4rem;
+    z-index: 1;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 4rem; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--orange);
+    letter-spacing: 2px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: 2px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: auto;
+    max-width: 200px;
+  }
+
+  /* ABOUT */
+  #about { background: var(--dark); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #bbb;
+    margin-bottom: 1.5rem;
+  }
+  .about-text p strong { color: var(--white); }
+  .about-highlights { display: flex; flex-direction: column; gap: 1.2rem; }
+  .highlight-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    border-radius: 2px;
+  }
+  .highlight-icon { font-size: 1.4rem; margin-top: 0.1rem; }
+  .highlight-text strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .highlight-text span {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--black); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    padding: 1.8rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--orange-dim) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .skill-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-cat {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 1rem;
+  }
+  .skill-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    padding: 0.3rem 0.75rem;
+    background: rgba(255,92,0,0.08);
+    border: 1px solid rgba(255,92,0,0.2);
+    border-radius: 2px;
+    font-size: 0.75rem;
+    color: #ccc;
+    font-family: var(--font-mono);
+  }
+
+  /* EXPERIENCE */
+  #experience { background: var(--dark); }
+  .exp-timeline { position: relative; }
+  .exp-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--orange), var(--border));
+  }
+  .exp-item {
+    padding: 0 0 3.5rem 3rem;
+    position: relative;
+  }
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 6px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 12px var(--orange);
+  }
+  .exp-meta {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .exp-date {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    color: var(--orange);
+    text-transform: uppercase;
+  }
+  .exp-badge {
+    padding: 0.2rem 0.8rem;
+    background: var(--orange-dim);
+    border: 1px solid rgba(255,92,0,0.3);
+    border-radius: 2px;
+    font-size: 0.68rem;
+    font-family: var(--font-mono);
+    color: var(--orange);
+    letter-spacing: 1px;
+  }
+  .exp-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .exp-company {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+  }
+  .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .exp-points li {
+    display: flex; gap: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #bbb;
+  }
+  .exp-points li::before {
+    content: '→';
+    color: var(--orange);
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--black); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+    position: relative;
+  }
+  .project-card:hover { transform: translateY(-6px); border-color: var(--orange); }
+  .project-visual {
+    height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pv-rpa { background: linear-gradient(135deg, #1a0a00 0%, #2d1200 100%); }
+  .pv-web { background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2d 100%); }
+  .pv-ui  { background: linear-gradient(135deg, #0a1a0a 0%, #1a2d1a 100%); }
+  .pv-icon {
+    font-size: 3.5rem;
+    opacity: 0.35;
+    filter: sepia(1) saturate(3) hue-rotate(340deg);
+  }
+  .project-type {
+    position: absolute; top: 1rem; right: 1rem;
+    padding: 0.25rem 0.7rem;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .project-body { padding: 1.5rem; }
+  .project-body h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 0.7rem;
+  }
+  .project-body p {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+  .project-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+  }
+  .project-stack { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .stack-tag {
+    padding: 0.2rem 0.6rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 0.65rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--orange);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+  }
+  .project-link:hover { opacity: 0.7; }
+
+  /* DESIGN SECTION */
+  #design { background: var(--dark); }
+  .design-intro {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #aaa;
+    max-width: 640px;
+    margin-bottom: 3rem;
+  }
+  .design-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .design-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .design-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+  .design-card-visual {
+    height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .dc-app { background: linear-gradient(135deg, #0f1a0f, #1a2d1a); }
+  .dc-kitchen { background: linear-gradient(135deg, #1a100a, #2d1a0f); }
+  .design-card-body { padding: 1.5rem; }
+  .design-card-body h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .design-card-body p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .design-card-body .tag { cursor: default; }
+  .behance-cta {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .behance-cta:hover { border-color: var(--orange); }
+  .behance-icon { font-size: 2rem; }
+  .behance-text strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 0.2rem;
+  }
+  .behance-text span {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+  .behance-arrow { margin-left: auto; color: var(--orange); font-size: 1.3rem; }
+
+  /* CONTACT */
+  #contact { background: var(--black); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contact-info h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .contact-info p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #aaa;
+    margin-bottom: 2.5rem;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+    color: var(--white);
+  }
+  .contact-link:hover { border-color: var(--orange); }
+  .contact-link-icon { font-size: 1.2rem; }
+  .contact-link-info strong {
+    display: block;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+  }
+  .contact-link-info span {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form-group input,
+  .form-group textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.85rem 1rem;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+    cursor: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--orange); }
+  .form-group textarea { min-height: 120px; }
+  .form-submit {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .submit-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-copy {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .footer-copy span { color: var(--orange); }
+  .scroll-top {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 1rem;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: none;
+  }
+  .scroll-top:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag     { animation: fadeUp 0.6s ease 0.1s both; }
+  h1.hero-name  { animation: fadeUp 0.7s ease 0.25s both; }
+  .hero-title   { animation: fadeUp 0.7s ease 0.4s both; }
+  .hero-bio     { animation: fadeUp 0.7s ease 0.55s both; }
+  .hero-ctas    { animation: fadeUp 0.7s ease 0.7s both; }
+  .hero-photo-area { animation: fadeUp 0.8s ease 0.5s both; }
+  .hero-stats   { animation: fadeUp 0.7s ease 0.85s both; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 12px var(--orange); }
+    50%       { box-shadow: 0 0 24px var(--orange), 0 0 48px rgba(255,92,0,0.3); }
+  }
+  .exp-item::before { animation: pulse 3s ease-in-out infinite; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-photo-area { display: none; }
+    .about-grid, .contact-grid, .design-cards { grid-template-columns: 1fr; }
+    .hero-stats { left: 1.5rem; gap: 2rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 1rem; }
+  }
+
+  /* Photo upload notice */
+  .photo-upload-note {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 0.8rem;
+    background: rgba(255,92,0,0.9);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    color: var(--black);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><span>A</span>NIRUDH</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">QA Automation Engineer · RPA Specialist</div>
+    <h1 class="hero-name">ANIRU<span class="accent">DH</span><br>RATHORE</h1>
+    <div class="hero-title">Building Reliable Systems</div>
+    <p class="hero-bio">
+      QA Automation Engineer with <strong>3+ years</strong> at Accenture, specializing in
+      UiPath RPA, test automation frameworks, and data pipeline validation.
+      I turn complex QA challenges into elegant, reliable automated solutions.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-primary">Get in Touch ↗</a>
+      <a href="#experience" class="btn btn-outline">View Experience</a>
+      <a href="https://www.linkedin.com/in/anirudhrathore" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+  </div>
+
+  <!-- Photo Area -->
+  <div class="hero-photo-area">
+    <div class="photo-corner tl"></div>
+    <div class="photo-corner br"></div>
+    <div class="photo-frame">
+      <div class="photo-placeholder" id="photoPlaceholder">
+        <div class="icon">👤</div>
+        <p>UPLOAD YOUR<br>PHOTO BELOW</p>
+      </div>
+      <img id="profilePhoto" src="" alt="Anirudh Rathore" style="display:none;">
+      <div class="photo-upload-note" id="uploadNote">← Upload photo to replace</div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Years Exp.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">30%</div>
+      <div class="stat-label">Testing Effort Reduced</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Teams Served</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01 /</span>
+    <h2 class="section-title">ABOUT ME</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a <strong>QA Automation Engineer</strong> based in Jaipur, India, currently working as a
+        Data Engineering & Management Analyst at <strong>Accenture</strong>. I specialise in building
+        robust automation frameworks using UiPath that make enterprise processes more reliable and efficient.
+      </p>
+      <p>
+        With a Computer Science background from JECRC University, I bridge the gap between
+        technical excellence and business outcomes — from designing test suites to delivering
+        MD-level reporting dashboards for 250+ resources across 10+ teams.
+      </p>
+      <p>
+        Outside of QA, I enjoy <strong>UI/UX design</strong> — you can find my visual work on Behance,
+        including app UI design for IAESTE LC JECRC and a full website for The Corporate Kitchen.
+      </p>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="highlight-icon">🤖</div>
+        <div class="highlight-text">
+          <strong>RPA Automation Expert</strong>
+          <span>Specialist in UiPath Studio, Orchestrator & REFramework — building error-resilient, modular automation workflows.</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🧪</div>
+        <div class="highlight-text">
+          <strong>End-to-End QA</strong>
+          <span>Full test lifecycle ownership: functional, regression, UAT — reducing manual effort by 30% across enterprise solutions.</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">📊</div>
+        <div class="highlight-text">
+          <strong>Data & Reporting</strong>
+          <span>Weekly metrics delivery for MD-level reporting, sales dashboard validation across 7 e-commerce platforms.</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🎨</div>
+        <div class="highlight-text">
+          <strong>Design Sensibility</strong>
+          <span>UX/UI design skills that inform user-focused automation and help visualise complex test outcomes clearly.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">02 /</span>
+    <h2 class="section-title">SKILLS</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-cat">Automation & RPA</div>
+      <h3>UiPath Suite</h3>
+      <div class="skill-tags">
+        <span class="tag">UiPath Studio</span>
+        <span class="tag">Orchestrator</span>
+        <span class="tag">REFramework</span>
+        <span class="tag">Workflow Automation</span>
+        <span class="tag">Reusable Components</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Testing</div>
+      <h3>QA Engineering</h3>
+      <div class="skill-tags">
+        <span class="tag">Automation Testing</span>
+        <span class="tag">Functional Testing</span>
+        <span class="tag">Regression Testing</span>
+        <span class="tag">UAT</span>
+        <span class="tag">Test Case Design</span>
+        <span class="tag">Defect Management</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Tools & Tech</div>
+      <h3>Dev Tooling</h3>
+      <div class="skill-tags">
+        <span class="tag">SQL</span>
+        <span class="tag">Excel Automation</span>
+        <span class="tag">Azure DevOps</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Methodology</div>
+      <h3>Frameworks</h3>
+      <div class="skill-tags">
+        <span class="tag">Agile / Scrum</span>
+        <span class="tag">SDLC</span>
+        <span class="tag">STLC</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03 /</span>
+    <h2 class="section-title">EXPERIENCE</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="exp-timeline">
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-date">2022 — Present</span>
+        <span class="exp-badge">Full-Time</span>
+      </div>
+      <h3>Data Engineering & Management Analyst</h3>
+      <div class="exp-company">Accenture · Jaipur, India</div>
+      <ul class="exp-points">
+        <li>Performed end-to-end QA automation for enterprise RPA solutions using UiPath, ensuring process reliability and data accuracy across large-scale workflows.</li>
+        <li>Designed and executed automated test workflows and regression suites, reducing manual testing effort by <strong>30%</strong> and accelerating release cycles.</li>
+        <li>Built reusable automation components and modular workflows, cutting script development time by <strong>25%</strong>.</li>
+        <li>Managed test cases, test execution, and defect lifecycle using Azure DevOps in an Agile/Scrum environment.</li>
+        <li>Collaborated with business stakeholders to validate requirements, create UAT scenarios, and confirm automation outcomes.</li>
+        <li>Delivered weekly metrics for 10+ teams (250+ resources) as part of MD-level reporting.</li>
+        <li>Coordinated onboarding and attendance tracking for 20+ new joiners prior to project allocation.</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-meta">
+        <span class="exp-date">Jan 2022 — Jun 2022</span>
+        <span class="exp-badge">Internship</span>
+      </div>
+      <h3>Growth Team Intern</h3>
+      <div class="exp-company">Mensa Brands · Remote</div>
+      <ul class="exp-points">
+        <li>Maintained and validated daily sales dashboards across <strong>7 e-commerce platforms</strong> and managed Amazon storefront operations.</li>
+        <li>Performed SKU-level analysis to validate pricing, inventory, and advertising logic used in dashboards and reports.</li>
+        <li>Optimised ad spend recommendations based on performance data, improving campaign efficiency and reporting accuracy.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">04 /</span>
+    <h2 class="section-title">PROJECTS</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-visual pv-rpa">
+        <div class="pv-icon">🤖</div>
+        <span class="project-type">RPA</span>
+      </div>
+      <div class="project-body">
+        <h3>RPA Automation Framework</h3>
+        <p>Developed error-resilient workflows using UiPath's REFramework, featuring standardised logging, exception handling, and reusable component libraries for faster automation development and easier maintenance.</p>
+      </div>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span class="stack-tag">UiPath</span>
+          <span class="stack-tag">REFramework</span>
+          <span class="stack-tag">SQL</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-visual pv-web">
+        <div class="pv-icon">🍳</div>
+        <span class="project-type">Web</span>
+      </div>
+      <div class="project-body">
+        <h3>The Corporate Kitchen</h3>
+        <p>Designed, hosted, and functionally validated a responsive website ensuring cross-browser consistency, UX checks, and smooth user flows — bridging design and QA sensibilities.</p>
+      </div>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span class="stack-tag">Web Design</span>
+          <span class="stack-tag">QA Testing</span>
+          <span class="stack-tag">Responsive</span>
+        </div>
+        <a href="https://www.behance.net/anirudhrathore1" target="_blank" class="project-link">View ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PROJECTS -->
+<section id="design">
+  <div class="section-header">
+    <span class="section-num">05 /</span>
+    <h2 class="section-title">DESIGN</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="design-intro">
+    Beyond automation, I bring a keen visual sensibility to my work. Here's a selection
+    of UI/UX design projects — see the full portfolio on Behance.
+  </p>
+  <div class="design-cards">
+    <div class="design-card">
+      <div class="design-card-visual dc-app">📱</div>
+      <div class="design-card-body">
+        <h3>IAESTE LC JECRC App</h3>
+        <p>Designed the complete UI for the IAESTE LC JECRC mobile application, maintaining strict brand guidelines while creating an intuitive, student-focused experience.</p>
+        <div class="skill-tags">
+          <span class="tag">App UI</span>
+          <span class="tag">Brand Guidelines</span>
+          <span class="tag">UX Design</span>
+        </div>
+      </div>
+    </div>
+    <div class="design-card">
+      <div class="design-card-visual dc-kitchen">🍽️</div>
+      <div class="design-card-body">
+        <h3>The Corporate Kitchen</h3>
+        <p>End-to-end design and functional validation of a responsive website. Handled cross-browser consistency, UX testing, and hosting setup from concept to launch.</p>
+        <div class="skill-tags">
+          <span class="tag">Web Design</span>
+          <span class="tag">Responsive</span>
+          <span class="tag">QA Validation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="https://www.behance.net/anirudhrathore1" target="_blank" class="behance-cta">
+    <span class="behance-icon">🅱</span>
+    <div class="behance-text">
+      <strong>View Full Portfolio on Behance</strong>
+      <span>behance.net/anirudhrathore1</span>
+    </div>
+    <span class="behance-arrow">↗</span>
+  </a>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">06 /</span>
+    <h2 class="section-title">CONTACT</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Let's Work Together</h3>
+      <p>Open to QA automation roles, RPA consulting, and freelance design projects. Feel free to reach out via the form or directly through any of the channels below.</p>
+      <div class="contact-links">
+        <a href="mailto:rathore.anirudha@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <div class="contact-link-info">
+            <strong>Email</strong>
+            <span>rathore.anirudha@gmail.com</span>
+          </div>
+        </a>
+        <a href="tel:+917014220050" class="contact-link">
+          <span class="contact-link-icon">📞</span>
+          <div class="contact-link-info">
+            <strong>Phone</strong>
+            <span>+91 7014220050</span>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/anirudhrathore" target="_blank" class="contact-link">
+          <span class="contact-link-icon">💼</span>
+          <div class="contact-link-info">
+            <strong>LinkedIn</strong>
+            <span>linkedin.com/in/anirudhrathore</span>
+          </div>
+        </a>
+        <a href="https://www.behance.net/anirudhrathore1" target="_blank" class="contact-link">
+          <span class="contact-link-icon">🎨</span>
+          <div class="contact-link-info">
+            <strong>Behance</strong>
+            <span>behance.net/anirudhrathore1</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Jane Smith" required />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="jane@company.com" required />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" placeholder="Let's talk about..." />
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me about your project or opportunity..."></textarea>
+      </div>
+      <div class="form-submit">
+        <span class="submit-note" id="submitNote">All fields optional except name & email</span>
+        <button type="submit" class="btn btn-primary">Send Message →</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 <span>Anirudh Rathore</span> · Built with intention</div>
+  <a href="#home" class="scroll-top">↑</a>
+</footer>
+
+<!-- Photo Upload (hidden input for convenience) -->
+<input type="file" id="photoInput" accept="image/*" style="display:none">
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, input, textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(1.8)';
+      ring.style.width = '56px'; ring.style.height = '56px';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Photo upload
+  const photoInput = document.getElementById('photoInput');
+  const profilePhoto = document.getElementById('profilePhoto');
+  const photoPlaceholder = document.getElementById('photoPlaceholder');
+  const uploadNote = document.getElementById('uploadNote');
+  uploadNote.style.cursor = 'pointer';
+  uploadNote.addEventListener('click', () => photoInput.click());
+  photoPlaceholder.addEventListener('click', () => photoInput.click());
+  photoInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      profilePhoto.src = ev.target.result;
+      profilePhoto.style.display = 'block';
+      photoPlaceholder.style.display = 'none';
+      uploadNote.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const note = document.getElementById('submitNote');
+    note.textContent = '✓ Message sent! (connect form to backend to activate)';
+    note.style.color = 'var(--orange)';
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = 'fadeUp 0.6s ease both';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.skill-card, .project-card, .exp-item, .design-card, .highlight-item').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
