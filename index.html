@@ -706,16 +706,156 @@
   }
   .exp-item::before { animation: pulse 3s ease-in-out infinite; }
 
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    section { padding: 4rem 1.5rem; }
-    .hero { padding: 7rem 1.5rem 3rem; }
+  /* ─── HAMBURGER MENU ─── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 6px;
+    cursor: pointer;
+    z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 100%; height: 1px;
+    background: var(--white);
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .nav-mobile-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10,10,10,0.97);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .nav-mobile-overlay.open { display: flex; }
+  .nav-mobile-overlay a {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-mobile-overlay a:hover { color: var(--orange); }
+
+  /* ─── TABLET (≤ 1024px) ─── */
+  @media (max-width: 1024px) {
+    .hero-photo-area {
+      width: 260px; height: 320px;
+      right: 2rem;
+    }
+    h1.hero-name { font-size: clamp(4rem, 11vw, 8rem); }
+    .hero-stats { gap: 2.5rem; }
+  }
+
+  /* ─── MOBILE (≤ 768px) ─── */
+  @media (max-width: 768px) {
+    /* Global */
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    .btn { cursor: pointer; }
+    .form-group input,
+    .form-group textarea,
+    .scroll-top { cursor: pointer; }
+
+    /* Nav */
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+
+    /* Hero */
+    .hero {
+      min-height: 100svh;
+      padding: 6.5rem 1.2rem 10rem;
+      align-items: flex-start;
+    }
+    .hero-bg {
+      background: radial-gradient(ellipse 80% 50% at 50% 30%, rgba(255,92,0,0.1) 0%, transparent 70%);
+    }
+    .hero-content { max-width: 100%; }
+    h1.hero-name { font-size: clamp(3.8rem, 18vw, 6rem); }
+    .hero-title { font-size: clamp(1rem, 5vw, 1.6rem); letter-spacing: 2px; }
+    .hero-bio { font-size: 0.95rem; margin-bottom: 2rem; }
+    .hero-ctas { flex-direction: column; gap: 0.8rem; }
+    .hero-ctas .btn { width: 100%; justify-content: center; }
     .hero-photo-area { display: none; }
-    .about-grid, .contact-grid, .design-cards { grid-template-columns: 1fr; }
-    .hero-stats { left: 1.5rem; gap: 2rem; }
-    footer { padding: 1.5rem; flex-direction: column; gap: 1rem; }
+    .hero-stats {
+      position: static;
+      margin-top: 2.5rem;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+    }
+    .stat-num { font-size: 2rem; }
+    .stat-label { font-size: 0.6rem; }
+
+    /* Sections */
+    section { padding: 3.5rem 1.2rem; }
+    .section-header { gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .section-num { font-size: 0.68rem; }
+    .section-line { display: none; }
+
+    /* About */
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-text p { font-size: 0.95rem; }
+    .highlight-item { padding: 1rem 1.1rem; }
+
+    /* Skills */
+    .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .skill-card { padding: 1.3rem; }
+
+    /* Experience */
+    .exp-timeline::before { left: 4px; }
+    .exp-item { padding: 0 0 2.5rem 1.8rem; }
+    .exp-item::before { left: -1px; width: 9px; height: 9px; }
+    .exp-item h3 { font-size: 1.4rem; }
+    .exp-company { font-size: 0.78rem; margin-bottom: 1rem; }
+    .exp-points li { font-size: 0.85rem; }
+
+    /* Projects */
+    .projects-grid { grid-template-columns: 1fr; }
+
+    /* Design */
+    .design-cards { grid-template-columns: 1fr; }
+    .design-card-visual { height: 140px; font-size: 3rem; }
+    .behance-cta { padding: 1.2rem; }
+    .behance-text strong { font-size: 1rem; }
+
+    /* Contact */
+    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .contact-info p { margin-bottom: 1.5rem; }
+    .form-submit { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .form-submit .btn { width: 100%; justify-content: center; }
+    .submit-note { font-size: 0.68rem; }
+
+    /* Footer */
+    footer {
+      padding: 1.5rem 1.2rem;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤ 380px) ─── */
+  @media (max-width: 380px) {
+    h1.hero-name { font-size: clamp(3rem, 20vw, 4.5rem); }
+    .hero-tag { font-size: 0.6rem; letter-spacing: 1px; }
+    .hero-stats { gap: 1.2rem; }
+    .stat-num { font-size: 1.7rem; }
   }
 
   /* Photo upload notice */
@@ -750,7 +890,20 @@
     <li><a href="#design">Design</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile Nav Overlay -->
+<div class="nav-mobile-overlay" id="mobileNav">
+  <a href="#about"      onclick="closeMobileNav()">About</a>
+  <a href="#skills"     onclick="closeMobileNav()">Skills</a>
+  <a href="#experience" onclick="closeMobileNav()">Experience</a>
+  <a href="#projects"   onclick="closeMobileNav()">Projects</a>
+  <a href="#design"     onclick="closeMobileNav()">Design</a>
+  <a href="#contact"    onclick="closeMobileNav()">Contact</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -1123,6 +1276,20 @@
 <input type="file" id="photoInput" accept="image/*" style="display:none">
 
 <script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeMobileNav() {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   // Cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
